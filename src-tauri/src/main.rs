@@ -17,5 +17,5 @@ fn main() {
             commands::scan_rom_folder,
         ])
         .run(tauri::generate_context!())
-        .expect("error while running AtariForge");
+        .expect("error while running FujiNext™");
 }

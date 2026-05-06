@@ -1,6 +1,6 @@
 import { Profile } from './types/profile';
 
-// The five default demo profiles that ship with AtariForge.
+// The five default demo profiles that ship with FujiNext™.
 // IDs 1-5 are reserved for these and should never be used for user profiles.
 export const DEMO_PROFILE_IDS = [1, 2, 3, 4, 5];
 

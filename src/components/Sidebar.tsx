@@ -83,7 +83,7 @@ export default function Sidebar({ profiles, activeId, onSelect, onAdd, onDuplica
                 <rect x="12" y="60" width="76" height="16" rx="8" fill="#fff"/>
               </svg>
             </div>
-            AtariForge
+            FujiNext™
           </div>
         </div>
 
@@ -144,6 +144,14 @@ export default function Sidebar({ profiles, activeId, onSelect, onAdd, onDuplica
             <button className="btn-new" onClick={onOpenSettings} style={{ width: 40 }} title="Settings">
               ⚙
             </button>
+          </div>
+          <div className="sidebar-copyright">
+            <div className="copyright-name">FujiNext™ <span className="copyright-version">v1.0</span></div>
+            <div className="copyright-owner">© 2025 Jeff Warz</div>
+            <div className="copyright-disclaimer">
+              Not affiliated with the Hatari project or any holder of the Atari name or trademark.
+              All machine names referenced for compatibility purposes only.
+            </div>
           </div>
         </div>
       </aside>
