@@ -7,7 +7,7 @@ export const DEMO_PROFILE_IDS = [1, 2, 3, 4, 5];
 export const DEMO_PROFILES: Profile[] = [
   {
     id: 1, name: 'Gaming ST', notes: 'Max game compatibility',
-    machine: 'ST', cpu: '8', ram: '512K', ttram: 'None',
+    machine: 'ST', cpu: '8', cpuType: '68000', fpu: 'none', ram: '512K', ttram: 'None',
     tos: 'TOS 1.04', tosPath: '', monitor: 'Colour',
     floppyA: '', floppyB: '',
     drives: { acsi: [], scsi: [], ide: [], gemdos: '' },
@@ -18,7 +18,7 @@ export const DEMO_PROFILES: Profile[] = [
   },
   {
     id: 2, name: 'Mega STE Office', notes: '',
-    machine: 'MegaSTE', cpu: '16', ram: '4M', ttram: 'None',
+    machine: 'MegaSTE', cpu: '16', cpuType: '68000', fpu: 'none', ram: '4M', ttram: 'None',
     tos: 'TOS 2.06', tosPath: '', monitor: 'Colour',
     floppyA: '', floppyB: '',
     drives: { acsi: [], scsi: [], ide: [], gemdos: '' },
@@ -29,7 +29,7 @@ export const DEMO_PROFILES: Profile[] = [
   },
   {
     id: 3, name: 'Falcon Dev', notes: 'DSP development setup',
-    machine: 'Falcon', cpu: '16', ram: '14M', ttram: '64 MiB',
+    machine: 'Falcon', cpu: '16', cpuType: '68030', fpu: 'none', ram: '14M', ttram: '64 MiB',
     tos: 'TOS 4.04', tosPath: '', monitor: 'VGA',
     floppyA: '', floppyB: '',
     drives: { acsi: [], scsi: [], ide: [], gemdos: '' },
@@ -40,7 +40,7 @@ export const DEMO_PROFILES: Profile[] = [
   },
   {
     id: 4, name: 'TT Max', notes: '',
-    machine: 'TT', cpu: '32', ram: '10M', ttram: '256 MiB',
+    machine: 'TT', cpu: '32', cpuType: '68030', fpu: 'none', ram: '10M', ttram: '256 MiB',
     tos: 'TOS 3.06', tosPath: '', monitor: 'Mono',
     floppyA: '', floppyB: '',
     drives: { acsi: [], scsi: [], ide: [], gemdos: '' },
@@ -51,7 +51,7 @@ export const DEMO_PROFILES: Profile[] = [
   },
   {
     id: 5, name: 'Upgraded STE', notes: 'Demos and music',
-    machine: 'STE', cpu: '8', ram: '4M', ttram: 'None',
+    machine: 'STE', cpu: '8', cpuType: '68000', fpu: 'none', ram: '4M', ttram: 'None',
     tos: 'TOS 1.62', tosPath: '', monitor: 'Colour',
     floppyA: '', floppyB: '',
     drives: { acsi: [], scsi: [], ide: [], gemdos: '' },

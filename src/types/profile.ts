@@ -2,6 +2,10 @@ export type MachineType = 'ST' | 'STE' | 'MegaSTE' | 'TT' | 'Falcon';
 
 export type CpuSpeed = '8' | '16' | '32';
 
+export type CpuType = '68000' | '68010' | '68020' | '68030' | '68040' | '68060';
+
+export type FpuType = 'none' | '68881' | '68882' | 'internal';
+
 export type StRamSize =
   | '512K' | '1M' | '2M' | '4M'
   | '8M'  | '10M' | '14M';
@@ -35,6 +39,8 @@ export interface Profile {
   notes:     string;
   machine:   MachineType;
   cpu:       CpuSpeed;
+  cpuType:   CpuType;
+  fpu:       FpuType;
   ram:       StRamSize;
   ttram:     TtRamSize;
   tos:       string;
@@ -128,6 +134,35 @@ export const RAM_OPTIONS: Record<MachineType, RamOption[]> = {
   ],
 };
 
+export interface CpuTypeOption {
+  id:      CpuType;
+  name:    string;
+  desc:    string;
+  realFor: MachineType[];
+}
+
+export const CPU_TYPE_OPTIONS: CpuTypeOption[] = [
+  { id: '68000', name: '68000', desc: 'Base 16-bit chip',          realFor: ['ST', 'STE', 'MegaSTE'] },
+  { id: '68010', name: '68010', desc: 'Loop-mode enhancements',     realFor: [] },
+  { id: '68020', name: '68020', desc: '32-bit + inst. cache',       realFor: [] },
+  { id: '68030', name: '68030', desc: '32-bit + MMU',               realFor: ['TT', 'Falcon'] },
+  { id: '68040', name: '68040', desc: 'Built-in FPU & MMU',         realFor: [] },
+  { id: '68060', name: '68060', desc: 'High-performance 68k',       realFor: [] },
+];
+
+export interface FpuOption {
+  id:   FpuType;
+  name: string;
+  desc: string;
+}
+
+export const FPU_OPTIONS: FpuOption[] = [
+  { id: 'none',     name: 'None',     desc: 'No FPU' },
+  { id: '68881',    name: '68881',    desc: 'External FPU coprocessor' },
+  { id: '68882',    name: '68882',    desc: 'External FPU (enhanced)' },
+  { id: 'internal', name: 'Internal', desc: 'Built-in (040/060 only)' },
+];
+
 export const CPU_OPTIONS: Record<MachineType, { id: CpuSpeed; name: string; desc: string }[]> = {
   ST:      [{ id: '8',  name: '8 MHz',  desc: '68000 — stock speed'          },
             { id: '16', name: '16 MHz', desc: '68000 — overclocked'           }],
@@ -188,6 +223,8 @@ export function makeDefaultProfile(id: number): Profile {
     notes:        '',
     machine:      'ST',
     cpu:          '8',
+    cpuType:      '68000',
+    fpu:          'none',
     ram:          '512K',
     ttram:        'None',
     tos:          'TOS 1.04',

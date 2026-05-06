@@ -1,6 +1,6 @@
 import {
-  Profile, MachineType, DetectedRom,
-  RAM_OPTIONS, CPU_OPTIONS, TOS_ROMS, TTRAM_OPTIONS,
+  Profile, MachineType, CpuType, DetectedRom,
+  RAM_OPTIONS, CPU_OPTIONS, CPU_TYPE_OPTIONS, FPU_OPTIONS, TOS_ROMS, TTRAM_OPTIONS,
   HW_MAX_LABEL, isExtendedRam,
 } from '../types/profile';
 import { pickFile, ROM_FILTERS } from '../hooks/useFilePicker';
@@ -35,9 +35,11 @@ export default function MachineTab({ profile: p, detectedRoms, onChange }: Props
   });
 
   function changeMachine(m: MachineType) {
-    // Reset CPU, RAM and TOS to sensible defaults for new machine
     const defCpu: Record<MachineType, Profile['cpu']> = {
       ST: '8', STE: '8', MegaSTE: '16', TT: '32', Falcon: '16',
+    };
+    const defCpuType: Record<MachineType, CpuType> = {
+      ST: '68000', STE: '68000', MegaSTE: '68000', TT: '68030', Falcon: '68030',
     };
     const defRam: Record<MachineType, Profile['ram']> = {
       ST: '512K', STE: '512K', MegaSTE: '4M', TT: '4M', Falcon: '4M',
@@ -47,6 +49,8 @@ export default function MachineTab({ profile: p, detectedRoms, onChange }: Props
       ...p,
       machine: m,
       cpu:     defCpu[m],
+      cpuType: defCpuType[m],
+      fpu:     'none',
       ram:     defRam[m],
       tos:     firstTos,
       ttram:   'None',
@@ -83,6 +87,49 @@ export default function MachineTab({ profile: p, detectedRoms, onChange }: Props
               key={o.id}
               className={`cpu-opt ${p.cpu === o.id ? 'sel' : ''}`}
               onClick={() => onChange(set(p, 'cpu', o.id))}
+            >
+              <div className="cpu-opt-name">{o.name}</div>
+              <div className="cpu-opt-desc">{o.desc}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* CPU type */}
+      <div className="section-label">CPU type</div>
+      <div className="card">
+        <div className="cpu-grid">
+          {CPU_TYPE_OPTIONS.map(o => {
+            const isReal = o.realFor.includes(p.machine);
+            return (
+              <div
+                key={o.id}
+                className={`cpu-opt ${p.cpuType === o.id ? 'sel' : ''}`}
+                onClick={() => onChange(set(p, 'cpuType', o.id))}
+              >
+                <div className="cpu-opt-name">
+                  {o.name}
+                  {isReal && <span className="real-tag"> ★</span>}
+                </div>
+                <div className="cpu-opt-desc">{o.desc}</div>
+              </div>
+            );
+          })}
+        </div>
+        <div className="ram-legend">
+          <span><span className="legend-star">★</span> Stock chip for this machine</span>
+        </div>
+      </div>
+
+      {/* FPU */}
+      <div className="section-label">FPU</div>
+      <div className="card">
+        <div className="cpu-grid">
+          {FPU_OPTIONS.map(o => (
+            <div
+              key={o.id}
+              className={`cpu-opt ${p.fpu === o.id ? 'sel' : ''}`}
+              onClick={() => onChange(set(p, 'fpu', o.id))}
             >
               <div className="cpu-opt-name">{o.name}</div>
               <div className="cpu-opt-desc">{o.desc}</div>

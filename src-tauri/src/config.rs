@@ -31,6 +31,10 @@ pub struct Profile {
     pub notes:        String,
     pub machine:      String,
     pub cpu:          String,
+    #[serde(rename = "cpuType", default = "default_cpu_type")]
+    pub cpu_type:     String,
+    #[serde(default = "default_fpu")]
+    pub fpu:          String,
     pub ram:          String,
     pub ttram:        String,
     pub tos:          String,
@@ -62,6 +66,9 @@ pub struct Profile {
     #[serde(rename = "createdAt")]
     pub created_at:   u64,
 }
+
+fn default_cpu_type() -> String { "68000".to_string() }
+fn default_fpu()      -> String { "none".to_string()  }
 
 // ── Hatari config generation ──────────────────────────────────────────────────
 
@@ -114,6 +121,24 @@ pub fn profile_to_cfg(p: &Profile) -> String {
         "16" => 16,
         "32" => 32,
         _    => 8,
+    };
+
+    let cpu_level: u32 = match p.cpu_type.as_str() {
+        "68000" => 0,
+        "68010" => 1,
+        "68020" => 2,
+        "68030" => 3,
+        "68040" => 4,
+        "68060" => 5,
+        _       => 0,
+    };
+
+    let fpu_type: u32 = match p.fpu.as_str() {
+        "none"     => 0,
+        "68881"    => 1,
+        "68882"    => 2,
+        "internal" => 3,
+        _          => 0,
     };
 
     let bool_str = |b: bool| if b { "TRUE" } else { "FALSE" };
@@ -209,8 +234,9 @@ szTosImageFileName = {tos}
 
 [System]
 nMachineType = {machine}
-nCpuLevel = 0
+nCpuLevel = {cpu_level}
 nCpuFreq = {cpu_clock}
+nFpuType = {fpu_type}
 bBlitter = {blitter}
 bRealTimeClock = {rtc}
 bPatchTimerD = {timer_d}
@@ -235,7 +261,9 @@ bDSPEnabled = {dsp}
         scsi               = scsi_lines,
         tos                = tos_path,
         machine            = machine_str,
+        cpu_level          = cpu_level,
         cpu_clock          = cpu_clock,
+        fpu_type           = fpu_type,
         blitter            = bool_str(p.blitter),
         rtc                = bool_str(p.rtc),
         timer_d            = bool_str(p.timer_d),
